@@ -1,27 +1,27 @@
-﻿# UTH Shop - PHP & MySQL
+# UTH Shop - PHP & MySQL
 
-## CÃ´ng nghá»‡
-- PHP thuáº§n
+## Công nghệ
+- PHP thuần
 - MySQL (XAMPP)
 - HTML/CSS/JS
 
-## TÃ­nh nÄƒng hiá»‡n cÃ³
-- Trang chá»§
-- Danh sÃ¡ch sáº£n pháº©m, chi tiáº¿t sáº£n pháº©m
-- Giá» hÃ ng, Ä‘áº·t hÃ ng
-- ÄÄƒng kÃ½ / Ä‘Äƒng nháº­p / Ä‘Äƒng xuáº¥t
-- Trang quáº£n trá»‹
-- CRUD danh má»¥c
-- CRUD sáº£n pháº©m
-- Quáº£n lÃ½ ngÆ°á»i dÃ¹ng
-- Quáº£n lÃ½ Ä‘Æ¡n hÃ ng
+## Tính năng hiện có
+- Trang chủ
+- Danh sách sản phẩm, chi tiết sản phẩm
+- Giỏ hàng, đặt hàng
+- Đăng ký / đăng nhập / đăng xuất
+- Trang quản trị
+- CRUD danh mục
+- CRUD sản phẩm
+- Quản lý người dùng
+- Quản lý đơn hàng
 
-## CÃ¡ch cháº¡y vá»›i XAMPP
-1. Copy thÆ° má»¥c `Web` vÃ o `D:\Xampp\htdocs\` hoáº·c cáº¥u hÃ¬nh VirtualHost trá» tá»›i thÆ° má»¥c hiá»‡n táº¡i.
-2. Má»Ÿ XAMPP, báº­t **Apache** vÃ  **MySQL**.
-3. VÃ o `http://localhost/phpmyadmin` vÃ  import file `database.sql`.
-4. Truy cáº­p dá»± Ã¡n qua URL phÃ¹ há»£p vá»›i vá»‹ trÃ­ thÆ° má»¥c trong htdocs.
+## Cách chạy với XAMPP
+1. Copy thư mục `Web` vào `D:\Xampp\htdocs\` hoặc cấu hình VirtualHost trỏ tới thư mục hiện tại.
+2. Mở XAMPP, bật **Apache** và **MySQL**.
+3. Vào `http://localhost/phpmyadmin` và import file `database.sql`.
+4. Truy cập dự án qua URL phù hợp với vị trí thư mục trong htdocs.
 
-## TÃ i khoáº£n máº«u
+## Tài khoản mẫu
 - Admin: `admin@gmail.com`
-- Máº­t kháº©u: `123456`
+- Mật khẩu: `123456`
