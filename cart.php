@@ -1,5 +1,15 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/includes/functions.php';
+
+if (isset($_GET['action']) && $_GET['action'] === 'remove' && isset($_GET['id'])) {
+    $remove_id = $_GET['id'];
+    if (isset($_SESSION['cart'][$remove_id])) {
+        unset($_SESSION['cart'][$remove_id]);
+    }
+    header('Location: /Web/cart.php');
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($_POST['qty'] ?? [] as $id => $qty) {
         if (isset($_SESSION['cart'][$id])) {
@@ -29,6 +39,7 @@ include __DIR__ . '/includes/header.php';
                     <th>Giá</th>
                     <th>Số lượng</th>
                     <th>Thành tiền</th>
+                    <th>Thao tác</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +52,7 @@ include __DIR__ . '/includes/header.php';
                         <td><input type="number" min="1" name="qty[<?php echo $item['id']; ?>]"
                                 value="<?php echo $item['quantity']; ?>"></td>
                         <td><?php echo formatPrice($subtotal); ?></td>
+                        <td><a href="?action=remove&amp;id=<?php echo $item['id']; ?>" class="btn small danger" onclick="return confirm('Bỏ sản phẩm này khỏi giỏ hàng?');">Xóa</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

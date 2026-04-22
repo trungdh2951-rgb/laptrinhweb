@@ -718,10 +718,195 @@ textarea {
     color: #991b1b;
 }
 
-/* PREMIUM HERO SLIDER */
-.premium-slider-section {
+/* PREMIUM HERO SLIDER & 3-COLUMNS HERO */
+.hero-wrapper {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr) 260px;
+    gap: 16px;
     margin-bottom: 30px;
 }
+
+/* LEFT SIDEBAR: MEGA MENU */
+.mega-menu-sidebar {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5eaee;
+    padding: 12px 0;
+    position: relative;
+    z-index: 40;
+}
+
+.mega-menu-item-wrapper {
+    position: static;
+}
+
+.mega-item-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 18px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s;
+}
+
+.mega-item-link:hover {
+    background: #f8fbfd;
+    color: #3d748d;
+}
+
+.mega-icon {
+    display: inline-flex;
+    margin-right: 10px;
+    width: 20px;
+    justify-content: center;
+    font-size: 16px;
+}
+
+/* FLYOUT PANEL */
+.mega-menu-flyout {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: 10px;
+    width: 880px;
+    min-height: 100%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    border: 1px solid #e5eaee;
+    padding: 24px;
+    z-index: 45;
+    
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.2s ease;
+}
+
+.mega-menu-item-wrapper:hover .mega-menu-flyout {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.flyout-grid-main {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 30px;
+}
+.flyout-col h4 { margin: 0 0 14px; color: #111; font-size: 15px; display: flex; align-items: center; justify-content: space-between; }
+.flyout-col h4 .hot-icon { color: #ea580c; }
+
+.brand-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.brand-box, .price-box, .product-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5eaee;
+    border-radius: 8px;
+    padding: 8px 4px;
+    text-decoration: none;
+    color: #333;
+    font-size: 12px;
+    text-align: center;
+    transition: all 0.2s;
+    background: #fff;
+    position: relative;
+    min-height: 38px;
+}
+
+.brand-box:hover, .price-box:hover, .product-box:hover {
+    border-color: #3d748d;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    color: #3d748d;
+}
+
+.badge-hot, .badge-new {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #e11d48;
+    color: #fff;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 800;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.badge-new {
+    background: #ea580c;
+}
+
+/* RIGHT SIDEBAR: PROMO BOX */
+.right-promo-box {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e5eaee;
+    padding: 16px;
+    height: clamp(300px, 40vw, 480px); /* Đảm bảo bằng slider height */
+    overflow-y: auto;
+}
+
+/* Custom Scrollbar cho promo box */
+.right-promo-box::-webkit-scrollbar { width: 5px; }
+.right-promo-box::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+.right-promo-box::-webkit-scrollbar-track { background: transparent; }
+
+.promo-group {
+    margin-bottom: 24px;
+}
+
+.promo-group-title {
+    background: #f1f5f9;
+    padding: 8px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-align: center;
+    color: #334155;
+    font-size: 13px;
+    margin-bottom: 14px;
+}
+
+.promo-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #475569;
+    margin-bottom: 14px;
+    text-decoration: none;
+    line-height: 1.4;
+}
+
+.promo-item .icon {
+    font-size: 16px;
+    margin-top: 1px;
+}
+
+.promo-item strong {
+    color: #0f172a;
+    display: inline-block;
+}
+
+.promo-item:hover strong {
+    color: #e11d48;
+}
+
+.premium-slider-section {
+    margin-bottom: 0;
+    height: 100%;
+}
+.slider-wrapper { height: 100%; }
 
 .slider-wrapper {
     position: relative;

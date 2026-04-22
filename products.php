@@ -5,7 +5,13 @@ require_once __DIR__ . '/includes/functions.php';
 $pageTitle = 'Sản phẩm';
 $keyword = trim($_GET['keyword'] ?? '');
 $categoryId = (int) ($_GET['category'] ?? 0);
+$brand = trim($_GET['brand'] ?? '');
 $categories = $conn->query('SELECT * FROM categories ORDER BY name ASC');
+
+$allowedBrands = ['iphone', 'samsung', 'xiaomi', 'oppo', 'sony', 'vivo'];
+if (!in_array(mb_strtolower($brand), $allowedBrands, true)) {
+    $brand = '';
+}
 
 $sql = 'SELECT products.*, categories.name AS category_name FROM products LEFT JOIN categories ON products.category_id = categories.id WHERE 1';
 $params = [];
@@ -21,6 +27,12 @@ if ($categoryId > 0) {
     $sql .= ' AND products.category_id = ?';
     $params[] = $categoryId;
     $types .= 'i';
+}
+
+if ($brand !== '') {
+    $sql .= ' AND products.name LIKE ?';
+    $params[] = '%' . $brand . '%';
+    $types .= 's';
 }
 
 $sql .= ' ORDER BY products.id DESC';
@@ -51,11 +63,24 @@ include __DIR__ . '/includes/header.php';
             </option>
         <?php endwhile; ?>
     </select>
+    <select name="brand">
+        <option value="">Tất cả hãng điện thoại</option>
+        <option value="iphone" <?php echo $brand === 'iphone' ? 'selected' : ''; ?>>iPhone</option>
+        <option value="samsung" <?php echo $brand === 'samsung' ? 'selected' : ''; ?>>Samsung</option>
+        <option value="xiaomi" <?php echo $brand === 'xiaomi' ? 'selected' : ''; ?>>Xiaomi</option>
+        <option value="oppo" <?php echo $brand === 'oppo' ? 'selected' : ''; ?>>OPPO</option>
+        <option value="sony" <?php echo $brand === 'sony' ? 'selected' : ''; ?>>Sony</option>
+        <option value="vivo" <?php echo $brand === 'vivo' ? 'selected' : ''; ?>>vivo</option>
+    </select>
     <button class="btn primary" type="submit">Lọc sản phẩm</button>
 </form>
 
 <div class="product-grid premium-grid">
-    <?php while ($row = $result->fetch_assoc()): ?>
+    <?php
+    $hasProducts = false;
+    while ($row = $result->fetch_assoc()):
+        $hasProducts = true;
+    ?>
         <article class="product-card shop-card premium-card">
             <div class="product-thumb">
                 <span class="thumb-label">New</span>
@@ -83,5 +108,11 @@ include __DIR__ . '/includes/header.php';
             </div>
         </article>
     <?php endwhile; ?>
+
+    <?php if (!$hasProducts): ?>
+        <div class="empty-state" style="grid-column: 1 / -1; padding: 20px; text-align:center; background:#fff; border-radius:12px;">
+            Không tìm thấy sản phẩm phù hợp với bộ lọc đã chọn.
+        </div>
+    <?php endif; ?>
 </div>
 <?php include __DIR__ . '/includes/footer.php'; ?>

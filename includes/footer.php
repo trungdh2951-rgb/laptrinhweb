@@ -1,4 +1,4 @@
-﻿</main>
+</main>
 <footer class="site-footer">
     <div class="container footer-grid">
         <div>
@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="container footer-bottom">
-        <p>© 2026 UTH Shop. Demo học tập với PHP & MySQL.</p>
+        <p>© 2026 UTH Shop.</p>
     </div>
 </footer>
 <script src="/Web/assets/js/main.js"></script>
