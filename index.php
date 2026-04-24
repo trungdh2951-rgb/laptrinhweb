@@ -88,11 +88,11 @@ include __DIR__ . '/includes/header.php';
                         
                         <h4 style="margin-top:20px;">Phân khúc giá</h4>
                         <div class="brand-grid">
-                            <a href="/Web/products.php?category=2" class="price-box">Dưới 10 triệu</a>
-                            <a href="/Web/products.php?category=2" class="price-box">Từ 10 - 15 tr</a>
-                            <a href="/Web/products.php?category=2" class="price-box">Từ 15 - 20 tr</a>
-                            <a href="/Web/products.php?category=2" class="price-box">Từ 20 - 25 tr</a>
-                            <a href="/Web/products.php?category=2" class="price-box">Trên 25 triệu</a>
+                            <a href="/Web/products.php?category=2&price_max=10000000" class="price-box">Dưới 10 triệu</a>
+                            <a href="/Web/products.php?category=2&price_min=10000000&price_max=15000000" class="price-box">Từ 10 - 15 tr</a>
+                            <a href="/Web/products.php?category=2&price_min=15000000&price_max=20000000" class="price-box">Từ 15 - 20 tr</a>
+                            <a href="/Web/products.php?category=2&price_min=20000000&price_max=25000000" class="price-box">Từ 20 - 25 tr</a>
+                            <a href="/Web/products.php?category=2&price_min=25000000" class="price-box">Trên 25 triệu</a>
                         </div>
                     </div>
                     

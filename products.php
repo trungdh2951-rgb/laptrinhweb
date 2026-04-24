@@ -8,6 +8,14 @@ $categoryId = (int) ($_GET['category'] ?? 0);
 $brand = trim($_GET['brand'] ?? '');
 $cpu = trim($_GET['cpu'] ?? '');
 $ram = trim($_GET['ram'] ?? '');
+$priceMin = (int) ($_GET['price_min'] ?? 0);
+$priceMax = (int) ($_GET['price_max'] ?? 0);
+
+// Chuẩn hoá tham số để tránh lệch dữ liệu giữa menu và DB
+if (strcasecmp($brand, 'MacBook') === 0) {
+    $brand = 'Apple';
+}
+$cpu = str_ireplace(['Intel Core ', 'Intel '], '', $cpu);
 
 $categories = $conn->query('SELECT * FROM categories ORDER BY name ASC');
 
@@ -49,6 +57,18 @@ if ($ram !== '') {
     $sql .= ' AND products.ram LIKE ?';
     $params[] = '%' . $ram . '%';
     $types .= 's';
+}
+
+if ($priceMin > 0) {
+    $sql .= ' AND products.price >= ?';
+    $params[] = $priceMin;
+    $types .= 'i';
+}
+
+if ($priceMax > 0) {
+    $sql .= ' AND products.price <= ?';
+    $params[] = $priceMax;
+    $types .= 'i';
 }
 
 $sql .= ' ORDER BY products.id DESC';
@@ -107,6 +127,9 @@ include __DIR__ . '/includes/header.php';
             </option>
         <?php endwhile; ?>
     </select>
+
+    <input type="number" name="price_min" placeholder="Giá từ" value="<?php echo $priceMin > 0 ? $priceMin : ''; ?>" style="width:120px;">
+    <input type="number" name="price_max" placeholder="Giá đến" value="<?php echo $priceMax > 0 ? $priceMax : ''; ?>" style="width:120px;">
 
     <button class="btn primary" type="submit">Lọc sản phẩm</button>
     <a href="products.php" class="btn light">Xóa lọc</a>
