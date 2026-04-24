@@ -69,7 +69,7 @@ include __DIR__ . '/includes/header.php';
                     <div class="flyout-col">
                         <h4>Thương hiệu</h4>
                         <div class="brand-grid">
-                            <a href="/Web/products.php?category=2&brand=MacBook" class="brand-box"><strong>MacBook</strong></a>
+                            <a href="/Web/products.php?category=2&brand=Apple" class="brand-box"><strong>MacBook</strong></a>
                             <a href="/Web/products.php?category=2&brand=ASUS" class="brand-box"><strong>ASUS</strong></a>
                             <a href="/Web/products.php?category=2&brand=Lenovo" class="brand-box"><strong>Lenovo</strong></a>
                             <a href="/Web/products.php?category=2&brand=Dell" class="brand-box"><strong>Dell</strong></a>
@@ -80,8 +80,8 @@ include __DIR__ . '/includes/header.php';
 
                         <h4 style="margin-top:20px;">Thuộc tính cấu hình</h4>
                         <div class="brand-grid">
-                            <a href="/Web/products.php?category=2&cpu=Intel%20Core%20i5" class="price-box">CPU Intel Core i5</a>
-                            <a href="/Web/products.php?category=2&cpu=Intel%20Core%20i7" class="price-box">CPU Intel Core i7</a>
+                            <a href="/Web/products.php?category=2&cpu=i5" class="price-box">CPU Intel Core i5</a>
+                            <a href="/Web/products.php?category=2&cpu=i7" class="price-box">CPU Intel Core i7</a>
                             <a href="/Web/products.php?category=2&ram=8GB" class="price-box">RAM 8GB</a>
                             <a href="/Web/products.php?category=2&ram=16GB" class="price-box">RAM 16GB</a>
                         </div>
