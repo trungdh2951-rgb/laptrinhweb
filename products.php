@@ -6,21 +6,25 @@ $pageTitle = 'Sản phẩm';
 $keyword = trim($_GET['keyword'] ?? '');
 $categoryId = (int) ($_GET['category'] ?? 0);
 $brand = trim($_GET['brand'] ?? '');
+$cpu = trim($_GET['cpu'] ?? '');
+$ram = trim($_GET['ram'] ?? '');
+
 $categories = $conn->query('SELECT * FROM categories ORDER BY name ASC');
 
-$allowedBrands = ['iphone', 'samsung', 'xiaomi', 'oppo', 'sony', 'vivo'];
-if (!in_array(mb_strtolower($brand), $allowedBrands, true)) {
-    $brand = '';
-}
+// Lấy danh sách hãng, cpu, ram duy nhất từ DB để làm bộ lọc
+$brands = $conn->query('SELECT DISTINCT brand FROM products WHERE brand IS NOT NULL AND brand != "" ORDER BY brand ASC');
+$cpus = $conn->query('SELECT DISTINCT cpu FROM products WHERE cpu IS NOT NULL AND cpu != "" ORDER BY cpu ASC');
+$rams = $conn->query('SELECT DISTINCT ram FROM products WHERE ram IS NOT NULL AND ram != "" ORDER BY ram ASC');
 
 $sql = 'SELECT products.*, categories.name AS category_name FROM products LEFT JOIN categories ON products.category_id = categories.id WHERE 1';
 $params = [];
 $types = '';
 
 if ($keyword !== '') {
-    $sql .= ' AND products.name LIKE ?';
+    $sql .= ' AND (products.name LIKE ? OR products.description LIKE ?)';
     $params[] = '%' . $keyword . '%';
-    $types .= 's';
+    $params[] = '%' . $keyword . '%';
+    $types .= 'ss';
 }
 
 if ($categoryId > 0) {
@@ -30,8 +34,20 @@ if ($categoryId > 0) {
 }
 
 if ($brand !== '') {
-    $sql .= ' AND products.name LIKE ?';
+    $sql .= ' AND products.brand LIKE ?';
     $params[] = '%' . $brand . '%';
+    $types .= 's';
+}
+
+if ($cpu !== '') {
+    $sql .= ' AND products.cpu LIKE ?';
+    $params[] = '%' . $cpu . '%';
+    $types .= 's';
+}
+
+if ($ram !== '') {
+    $sql .= ' AND products.ram LIKE ?';
+    $params[] = '%' . $ram . '%';
     $types .= 's';
 }
 
@@ -49,12 +65,13 @@ include __DIR__ . '/includes/header.php';
     <div>
         <span class="section-kicker">Kho sản phẩm</span>
         <h1>Chọn sản phẩm phù hợp với nhu cầu của bạn</h1>
-        <p>Tìm kiếm nhanh theo tên hoặc lọc theo danh mục để xem các mặt hàng nổi bật trong cửa hàng demo.</p>
+        <p>Tìm kiếm nhanh theo tên hoặc lọc theo các thuộc tính kỹ thuật của Laptop.</p>
     </div>
 </section>
 
-<form class="filter-bar elevated premium-filter" method="GET">
-    <input type="text" name="keyword" placeholder="Nhập tên sản phẩm..." value="<?php echo sanitize($keyword); ?>">
+<form class="filter-bar elevated premium-filter" method="GET" style="flex-wrap: wrap; gap: 10px;">
+    <input type="text" name="keyword" placeholder="Nhập tên sản phẩm..." value="<?php echo sanitize($keyword); ?>" style="flex: 1 1 200px;">
+    
     <select name="category">
         <option value="0">Tất cả danh mục</option>
         <?php while ($cat = $categories->fetch_assoc()): ?>
@@ -63,16 +80,36 @@ include __DIR__ . '/includes/header.php';
             </option>
         <?php endwhile; ?>
     </select>
+
     <select name="brand">
-        <option value="">Tất cả hãng điện thoại</option>
-        <option value="iphone" <?php echo $brand === 'iphone' ? 'selected' : ''; ?>>iPhone</option>
-        <option value="samsung" <?php echo $brand === 'samsung' ? 'selected' : ''; ?>>Samsung</option>
-        <option value="xiaomi" <?php echo $brand === 'xiaomi' ? 'selected' : ''; ?>>Xiaomi</option>
-        <option value="oppo" <?php echo $brand === 'oppo' ? 'selected' : ''; ?>>OPPO</option>
-        <option value="sony" <?php echo $brand === 'sony' ? 'selected' : ''; ?>>Sony</option>
-        <option value="vivo" <?php echo $brand === 'vivo' ? 'selected' : ''; ?>>vivo</option>
+        <option value="">Tất cả hãng</option>
+        <?php while ($b = $brands->fetch_assoc()): ?>
+            <option value="<?php echo sanitize($b['brand']); ?>" <?php echo $brand === $b['brand'] ? 'selected' : ''; ?>>
+                <?php echo sanitize($b['brand']); ?>
+            </option>
+        <?php endwhile; ?>
     </select>
+
+    <select name="cpu">
+        <option value="">Tất cả CPU</option>
+        <?php while ($c = $cpus->fetch_assoc()): ?>
+            <option value="<?php echo sanitize($c['cpu']); ?>" <?php echo $cpu === $c['cpu'] ? 'selected' : ''; ?>>
+                <?php echo sanitize($c['cpu']); ?>
+            </option>
+        <?php endwhile; ?>
+    </select>
+
+    <select name="ram">
+        <option value="">Tất cả RAM</option>
+        <?php while ($r = $rams->fetch_assoc()): ?>
+            <option value="<?php echo sanitize($r['ram']); ?>" <?php echo $ram === $r['ram'] ? 'selected' : ''; ?>>
+                <?php echo sanitize($r['ram']); ?>
+            </option>
+        <?php endwhile; ?>
+    </select>
+
     <button class="btn primary" type="submit">Lọc sản phẩm</button>
+    <a href="products.php" class="btn light">Xóa lọc</a>
 </form>
 
 <div class="product-grid premium-grid">
@@ -83,35 +120,42 @@ include __DIR__ . '/includes/header.php';
     ?>
         <article class="product-card shop-card premium-card">
             <div class="product-thumb">
-                <span class="thumb-label">New</span>
+                <span class="thumb-label">Mới</span>
                 <?php if(!empty($row['image'])): ?>
                     <img src="/Web/image/<?php echo sanitize($row['image']); ?>" alt="<?php echo sanitize($row['name']); ?>" class="product-entry-img">
                 <?php else: ?>
-                    <?php echo sanitize($row['name']); ?>
+                    <div class="no-image"><?php echo sanitize($row['name']); ?></div>
                 <?php endif; ?>
             </div>
             <div class="product-card-body">
                 <span class="badge"><?php echo sanitize($row['category_name'] ?? 'Chưa phân loại'); ?></span>
                 <h3><?php echo sanitize($row['name']); ?></h3>
-                <p><?php echo sanitize(mb_strimwidth($row['description'] ?? '', 0, 100, '...')); ?></p>
+                
+                <!-- Hiển thị thuộc tính kỹ thuật nếu có -->
+                <div class="tech-specs" style="margin: 5px 0; font-size: 0.85em; color: #666;">
+                    <?php if($row['cpu']): ?> <span>💻 <?php echo sanitize($row['cpu']); ?></span> <?php endif; ?>
+                    <?php if($row['ram']): ?> <span style="margin-left:10px;">💾 <?php echo sanitize($row['ram']); ?></span> <?php endif; ?>
+                </div>
+
+                <p><?php echo sanitize(mb_strimwidth($row['description'] ?? '', 0, 80, '...')); ?></p>
 
                 <div class="price-stack">
                     <strong><?php echo formatPrice($row['price']); ?></strong>
-                    <span class="old-price">Sẵn hàng: <?php echo (int) $row['stock']; ?></span>
+                    <span class="old-price">Kho: <?php echo (int) $row['stock']; ?></span>
                 </div>
 
                 <div class="product-meta vertical">
-                    <a class="btn primary small full" href="/Web/product_detail.php?id=<?php echo $row['id']; ?>">Chi tiết
-                        sản phẩm</a>
-                    <a class="btn light small full" href="/Web/cart.php">Đi đến giỏ hàng</a>
+                    <a class="btn primary small full" href="/Web/product_detail.php?id=<?php echo $row['id']; ?>">Chi tiết</a>
+                    <a class="btn light small full" href="/Web/cart.php">Giỏ hàng</a>
                 </div>
             </div>
         </article>
     <?php endwhile; ?>
 
     <?php if (!$hasProducts): ?>
-        <div class="empty-state" style="grid-column: 1 / -1; padding: 20px; text-align:center; background:#fff; border-radius:12px;">
-            Không tìm thấy sản phẩm phù hợp với bộ lọc đã chọn.
+        <div class="empty-state" style="grid-column: 1 / -1; padding: 40px; text-align:center; background:#fff; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <p>Không tìm thấy sản phẩm nào phù hợp với bộ lọc.</p>
+            <a href="products.php" class="btn primary">Xem tất cả sản phẩm</a>
         </div>
     <?php endif; ?>
 </div>
