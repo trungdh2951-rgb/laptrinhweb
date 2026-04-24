@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'id' => $product['id'],
         'name' => $product['name'],
         'price' => $product['price'],
-        'quantity' => $qty,
+        'image' => $product['image'],
+        'quantity' => ($_SESSION['cart'][$id]['quantity'] ?? 0) + $qty,
     ];
     header('Location: /Web/cart.php');
     exit();
@@ -33,28 +34,55 @@ include __DIR__ . '/includes/header.php';
             <?php if(!empty($product['image'])): ?>
                 <img src="/Web/image/<?php echo sanitize($product['image']); ?>" alt="<?php echo sanitize($product['name']); ?>" class="product-entry-img">
             <?php else: ?>
-                <?php echo sanitize($product['name']); ?>
+                <div class="no-image-detail"><?php echo sanitize($product['name']); ?></div>
             <?php endif; ?>
         </div>
         <div class="detail-feature-list">
-            <span>Hàng chính hãng</span>
-            <span>Bảo hành minh hoạ</span>
-            <span>Hỗ trợ đổi trả</span>
+            <span>🛡️ Hàng chính hãng 100%</span>
+            <span>🚚 Giao hàng toàn quốc</span>
+            <span>🔄 Bảo hành uy tín</span>
         </div>
     </div>
     <div class="detail-content">
-        <span class="badge"><?php echo sanitize($product['category_name'] ?? 'Chưa phân loại'); ?></span>
+        <div class="detail-header-meta">
+            <span class="badge"><?php echo sanitize($product['category_name'] ?? 'Chưa phân loại'); ?></span>
+            <?php if($product['brand']): ?>
+                <span class="badge light"><?php echo sanitize($product['brand']); ?></span>
+            <?php endif; ?>
+        </div>
+        
         <h1><?php echo sanitize($product['name']); ?></h1>
-        <p class="detail-description"><?php echo sanitize($product['description']); ?></p>
+
+        <!-- Tech Specs highlight -->
+        <?php if($product['cpu'] || $product['ram']): ?>
+            <div class="detail-tech-specs" style="margin-bottom: 20px; display: flex; gap: 15px; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                <?php if($product['cpu']): ?>
+                    <div><strong>Vi xử lý:</strong> <?php echo sanitize($product['cpu']); ?></div>
+                <?php endif; ?>
+                <?php if($product['ram']): ?>
+                    <div><strong>Bộ nhớ RAM:</strong> <?php echo sanitize($product['ram']); ?></div>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
+        <p class="detail-description"><?php echo nl2br(sanitize($product['description'])); ?></p>
+        
         <div class="detail-price-box">
             <strong><?php echo formatPrice($product['price']); ?></strong>
-            <span>Còn lại <?php echo (int) $product['stock']; ?> sản phẩm</span>
+            <span class="stock-info">Tình trạng: <?php echo (int) $product['stock'] > 0 ? 'Còn ' . (int) $product['stock'] . ' sản phẩm' : 'Hết hàng'; ?></span>
         </div>
-        <form method="POST" class="purchase-box">
-            <label>Số lượng</label>
-            <input type="number" name="quantity" min="1" value="1">
-            <button class="btn primary" type="submit">Thêm vào giỏ</button>
-        </form>
+
+        <?php if((int) $product['stock'] > 0): ?>
+            <form method="POST" class="purchase-box">
+                <div class="qty-input">
+                    <label>Số lượng:</label>
+                    <input type="number" name="quantity" min="1" max="<?php echo (int) $product['stock']; ?>" value="1">
+                </div>
+                <button class="btn primary full" type="submit">Thêm vào giỏ hàng</button>
+            </form>
+        <?php else: ?>
+            <button class="btn disabled full" disabled>Tạm hết hàng</button>
+        <?php endif; ?>
     </div>
 </div>
 <?php include __DIR__ . '/includes/footer.php'; ?>

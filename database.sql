@@ -23,6 +23,9 @@ CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     category_id INT NULL,
     name VARCHAR(150) NOT NULL,
+    brand VARCHAR(50) DEFAULT NULL,
+    cpu VARCHAR(100) DEFAULT NULL,
+    ram VARCHAR(50) DEFAULT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
     stock INT DEFAULT 0,
@@ -37,6 +40,7 @@ CREATE TABLE IF NOT EXISTS orders (
     total_amount DECIMAL(10,2) NOT NULL,
     status ENUM('pending', 'processing', 'completed', 'cancelled') DEFAULT 'pending',
     shipping_address TEXT NOT NULL,
+    payment_method ENUM('cod', 'bank_transfer') DEFAULT 'cod',
     phone VARCHAR(20),
     note TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -61,15 +65,26 @@ DELETE FROM categories;
 INSERT INTO categories (id, name, description) VALUES
 (1, 'Điện thoại', 'Các loại điện thoại thông minh mới nhất'),
 (2, 'Laptop', 'Laptop học tập, văn phòng và gaming'),
-(3, 'Phụ kiện', 'Tai nghe, chuột, bàn phím, sạc dự phòng')
+(3, 'Phụ kiện', 'Tai nghe, chuột, bàn phím, sạc dự phòng'),
+(4, 'Âm thanh', 'Loa, tai nghe, mic thu âm'),
+(5, 'Đồng hồ', 'Đồng hồ thông minh, camera giám sát'),
+(6, 'PC - Màn hình', 'Máy tính để bàn, màn hình, máy in'),
+(7, 'Tivi', 'Tivi thông minh, màn hình lớn')
 ON DUPLICATE KEY UPDATE name = VALUES(name), description = VALUES(description);
 
-INSERT INTO products (category_id, name, description, price, stock, image) VALUES
-(1, 'iPhone 13', 'Điện thoại Apple iPhone 13, thiết kế sang trọng, hiệu năng ổn định.', 15990000, 10, 'iphone13.jpg'),
-(1, 'Samsung Galaxy S23', 'Điện thoại Samsung cao cấp với màn hình đẹp và camera tốt.', 18990000, 8, 's23.jpg'),
-(2, 'MacBook Air M2', 'Laptop mỏng nhẹ, pin lâu, phù hợp học tập và làm việc.', 28990000, 5, 'macbookairm2.jpg'),
-(3, 'Tai nghe Bluetooth', 'Tai nghe không dây tiện lợi, âm thanh rõ ràng.', 990000, 20, 'tainghe.jpg');
+INSERT INTO products (category_id, name, brand, cpu, ram, description, price, stock, image) VALUES
+(1, 'iPhone 13', 'Apple', NULL, NULL, 'Điện thoại Apple iPhone 13, thiết kế sang trọng, hiệu năng ổn định.', 15990000, 10, 'iphone13.jpg'),
+(1, 'Samsung Galaxy S23', 'Samsung', NULL, NULL, 'Điện thoại Samsung cao cấp với màn hình đẹp và camera tốt.', 18990000, 8, 's23.jpg'),
+(2, 'MacBook Air M2', 'Apple', 'M2', '8GB', 'Laptop mỏng nhẹ, pin lâu, phù hợp học tập và làm việc.', 28990000, 5, 'macbookairm2.jpg'),
+(2, 'Dell XPS 13', 'Dell', 'i7', '16GB', 'Laptop cao cấp màn hình vô cực, mỏng nhẹ nhất thế giới.', 35000000, 3, 'Dell XPS 13.webp'),
+(2, 'HP Spectre x360', 'HP', 'i7', '16GB', 'Laptop xoay gập 360 độ, thiết kế sang trọng đẳng cấp.', 32000000, 4, 'HP Spectre x360.webp'),
+(2, 'ASUS ROG Zephyrus', 'ASUS', 'i9', '32GB', 'Laptop Gaming đỉnh cao, màn hình 165Hz chuyên game.', 45000000, 2, 'ASUS ROG Zephyrus.webp'),
+(3, 'Tai nghe Bluetooth', 'Sony', NULL, NULL, 'Tai nghe không dây tiện lợi, âm thanh rõ ràng.', 990000, 20, 'tainghe.jpg'),
+(4, 'Loa Bluetooth Marshall', 'Marshall', NULL, NULL, 'Âm thanh cực đỉnh, phong cách retro đẳng cấp.', 5500000, 12, 'Loa Bluetooth Marshall.webp'),
+(5, 'Apple Watch Series 9', 'Apple', NULL, NULL, 'Theo dõi sức khỏe chuyên sâu, thiết kế thời thượng.', 10500000, 15, 'Apple Watch Series 9.webp'),
+(6, 'Màn hình Dell UltraSharp', 'Dell', NULL, NULL, 'Độ phân giải 4K, màu sắc chuẩn xác cho đồ họa.', 8200000, 7, 'Màn hình Dell UltraSharp.webp'),
+(7, 'Tivi Sony 4K 55 inch', 'Sony', NULL, NULL, 'Hình ảnh sắc nét, âm thanh vòm sống động.', 14500000, 4, 'TV_sony_4k.jpg');
 
 INSERT INTO users (full_name, email, password, phone, address, role)
-SELECT 'Administrator', 'admin@gmail.com', '$2y$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', '0123456789', 'TP.HCM', 'admin'
+SELECT 'Administrator', 'admin@gmail.com', '$2y$10$5qHiOvHVQzhbe9vfjGdiduGz6pPTPa8a.a7lwcNgbdazb4zaPQQqq', '0123456789', 'TP.HCM', 'admin'
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'admin@gmail.com');

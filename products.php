@@ -147,20 +147,25 @@ include __DIR__ . '/includes/header.php';
                 <?php if(!empty($row['image'])): ?>
                     <img src="/Web/image/<?php echo sanitize($row['image']); ?>" alt="<?php echo sanitize($row['name']); ?>" class="product-entry-img">
                 <?php else: ?>
-                    <div class="no-image"><?php echo sanitize($row['name']); ?></div>
+                    <div class="no-image-placeholder"><?php echo sanitize($row['name']); ?></div>
                 <?php endif; ?>
             </div>
             <div class="product-card-body">
-                <span class="badge"><?php echo sanitize($row['category_name'] ?? 'Chưa phân loại'); ?></span>
+                <div style="display: flex; gap: 5px; margin-bottom: 5px;">
+                    <span class="badge"><?php echo sanitize($row['category_name'] ?? 'Chưa phân loại'); ?></span>
+                    <?php if($row['brand']): ?>
+                        <span class="badge light"><?php echo sanitize($row['brand']); ?></span>
+                    <?php endif; ?>
+                </div>
                 <h3><?php echo sanitize($row['name']); ?></h3>
                 
                 <!-- Hiển thị thuộc tính kỹ thuật nếu có -->
-                <div class="tech-specs" style="margin: 5px 0; font-size: 0.85em; color: #666;">
+                <div class="tech-specs" style="margin: 8px 0; font-size: 0.85em; color: #666; display: flex; gap: 10px;">
                     <?php if($row['cpu']): ?> <span>💻 <?php echo sanitize($row['cpu']); ?></span> <?php endif; ?>
-                    <?php if($row['ram']): ?> <span style="margin-left:10px;">💾 <?php echo sanitize($row['ram']); ?></span> <?php endif; ?>
+                    <?php if($row['ram']): ?> <span>💾 <?php echo sanitize($row['ram']); ?></span> <?php endif; ?>
                 </div>
 
-                <p><?php echo sanitize(mb_strimwidth($row['description'] ?? '', 0, 80, '...')); ?></p>
+                <p style="height: 40px; overflow: hidden;"><?php echo sanitize(mb_strimwidth($row['description'] ?? '', 0, 80, '...')); ?></p>
 
                 <div class="price-stack">
                     <strong><?php echo formatPrice($row['price']); ?></strong>
@@ -169,7 +174,10 @@ include __DIR__ . '/includes/header.php';
 
                 <div class="product-meta vertical">
                     <a class="btn primary small full" href="/Web/product_detail.php?id=<?php echo $row['id']; ?>">Chi tiết</a>
-                    <a class="btn light small full" href="/Web/cart.php">Giỏ hàng</a>
+                    <form method="POST" action="/Web/product_detail.php?id=<?php echo $row['id']; ?>" style="width: 100%;">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn light small full">Thêm vào giỏ</button>
+                    </form>
                 </div>
             </div>
         </article>

@@ -20,12 +20,12 @@ include __DIR__ . '/includes/header.php';
                     <div class="flyout-col">
                         <h4>Hãng điện thoại</h4>
                         <div class="brand-grid">
-                            <a href="/Web/products.php?category=1&brand=iphone" class="brand-box"><strong>iPhone</strong></a>
-                            <a href="/Web/products.php?category=1&brand=samsung" class="brand-box"><strong>SAMSUNG</strong></a>
-                            <a href="/Web/products.php?category=1&brand=xiaomi" class="brand-box"><strong>Xiaomi</strong></a>
-                            <a href="/Web/products.php?category=1&brand=oppo" class="brand-box"><strong>OPPO</strong></a>
-                            <a href="/Web/products.php?category=1&brand=sony" class="brand-box"><strong>SONY</strong></a>
-                            <a href="/Web/products.php?category=1&brand=vivo" class="brand-box"><strong>vivo</strong></a>
+                            <a href="/Web/products.php?category=1&brand=Apple" class="brand-box"><strong>iPhone</strong></a>
+                            <a href="/Web/products.php?category=1&brand=Samsung" class="brand-box"><strong>SAMSUNG</strong></a>
+                            <a href="/Web/products.php?category=1&brand=Xiaomi" class="brand-box"><strong>Xiaomi</strong></a>
+                            <a href="/Web/products.php?category=1&brand=OPPO" class="brand-box"><strong>OPPO</strong></a>
+                            <a href="/Web/products.php?category=1&brand=Sony" class="brand-box"><strong>SONY</strong></a>
+                            <a href="/Web/products.php?category=1&brand=Vivo" class="brand-box"><strong>vivo</strong></a>
                         </div>
                         
                         <h4 style="margin-top:20px;">Mức giá điện thoại</h4>
@@ -107,12 +107,62 @@ include __DIR__ . '/includes/header.php';
             </div>
         </div>
 
-        <div class="mega-menu-item-wrapper"><a href="/Web/products.php?category=4" class="mega-item-link"><span><span class="mega-icon">🎧</span> Âm thanh, mic thu âm</span></a></div>
-        <div class="mega-menu-item-wrapper"><a href="/Web/products.php?category=5" class="mega-item-link"><span><span class="mega-icon">⌚</span> Đồng hồ, camera</span></a></div>
-        <div class="mega-menu-item-wrapper"><a href="/Web/products.php?category=6" class="mega-item-link"><span><span class="mega-icon">🖥️</span> PC, màn hình, máy in</span></a></div>
-        <div class="mega-menu-item-wrapper"><a href="/Web/products.php?category=7" class="mega-item-link"><span><span class="mega-icon">📺</span> Tivi</span></a></div>
-        <div class="mega-menu-item-wrapper"><a href="/Web/products.php?category=3" class="mega-item-link"><span><span class="mega-icon">🔌</span> Phụ kiện</span></a></div>
-        <div class="mega-menu-item-wrapper"><a href="#" class="mega-item-link"><span><span class="mega-icon">📰</span> Tin tức công nghệ</span></a></div>
+        <!-- Item 3: Âm thanh -->
+        <div class="mega-menu-item-wrapper">
+            <a href="/Web/products.php?category=4" class="mega-item-link">
+                <span><span class="mega-icon">🎧</span> Âm thanh, mic thu âm</span>
+                <span>›</span>
+            </a>
+            <div class="mega-menu-flyout">
+                <div class="flyout-grid-main">
+                    <!-- Cột 1: Loại tai nghe & Mic -->
+                    <div class="flyout-col">
+                        <h4>Chọn loại tai nghe</h4>
+                        <div class="brand-grid">
+                            <a href="/Web/products.php?category=4&keyword=Bluetooth" class="brand-box"><span>🎧</span> Bluetooth</a>
+                            <a href="/Web/products.php?category=4&keyword=Chụp tai" class="brand-box"><span>🎧</span> Chụp tai</a>
+                            <a href="/Web/products.php?category=4&keyword=Nhét tai" class="brand-box"><span>🎧</span> Nhét tai</a>
+                            <a href="/Web/products.php?category=4&keyword=Gaming" class="brand-box"><span>🎮</span> Gaming</a>
+                        </div>
+                        
+                        <h4 style="margin-top:20px;">Microphone</h4>
+                        <div class="brand-grid">
+                            <a href="/Web/products.php?category=4&keyword=Mic cài áo" class="price-box">Mic cài áo</a>
+                            <a href="/Web/products.php?category=4&keyword=Phòng thu" class="price-box">Mic phòng thu</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Cột 2: Hãng tai nghe & Loa -->
+                    <div class="flyout-col">
+                        <h4>Hãng tai nghe & Loa</h4>
+                        <div class="brand-grid">
+                            <a href="/Web/products.php?category=4&brand=Sony" class="brand-box"><strong>SONY</strong></a>
+                            <a href="/Web/products.php?category=4&brand=JBL" class="brand-box"><strong>JBL</strong></a>
+                            <a href="/Web/products.php?category=4&brand=Marshall" class="brand-box"><strong>Marshall</strong></a>
+                            <a href="/Web/products.php?category=4&brand=Apple" class="brand-box"><strong>AirPods</strong></a>
+                            <a href="/Web/products.php?category=4&brand=Samsung" class="brand-box"><strong>Samsung</strong></a>
+                            <a href="/Web/products.php?category=4&brand=Sennheiser" class="brand-box"><strong>Sennheiser</strong></a>
+                        </div>
+                    </div>
+
+                    <!-- Cột 3: Giá -->
+                    <div class="flyout-col">
+                        <h4>Chọn theo giá</h4>
+                        <div class="brand-grid">
+                            <a href="/Web/products.php?category=4&price_max=500000" class="price-box">Dưới 500k</a>
+                            <a href="/Web/products.php?category=4&price_min=500000&price_max=2000000" class="price-box">Từ 500k - 2tr</a>
+                            <a href="/Web/products.php?category=4&price_min=2000000&price_max=5000000" class="price-box">Từ 2tr - 5tr</a>
+                            <a href="/Web/products.php?category=4&price_min=5000000" class="price-box">Trên 5 triệu</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mega-menu-item-wrapper"><a href="/Web/products.php?category=5" class="mega-item-link"><span><span class="mega-icon">⌚</span> Đồng hồ, camera</span><span>›</span></a></div>
+        <div class="mega-menu-item-wrapper"><a href="/Web/products.php?category=6" class="mega-item-link"><span><span class="mega-icon">🖥️</span> PC, màn hình, máy in</span><span>›</span></a></div>
+        <div class="mega-menu-item-wrapper"><a href="/Web/products.php?category=7" class="mega-item-link"><span><span class="mega-icon">📺</span> Tivi</span><span>›</span></a></div>
+        <div class="mega-menu-item-wrapper"><a href="/Web/products.php?category=3" class="mega-item-link"><span><span class="mega-icon">🔌</span> Phụ kiện</span><span>›</span></a></div>
+        <div class="mega-menu-item-wrapper"><a href="#" class="mega-item-link"><span><span class="mega-icon">📰</span> Tin tức công nghệ</span><span>›</span></a></div>
     </div>
 
     <!-- CENTER: SLIDER -->
