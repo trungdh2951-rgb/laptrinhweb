@@ -1,5 +1,51 @@
+include __DIR__ . '/../../includes/header.php';
 <?php
-require_once __DIR__ . '/../../config/database.php'; require_once __DIR__ . '/../../includes/auth.php'; require_once __DIR__ . '/../../includes/functions.php'; requireAdmin(); $id = (int)($_GET['id'] ?? 0); $itemStmt = $conn->prepare('SELECT * FROM products WHERE id = ?'); $itemStmt->bind_param('i', $id); $itemStmt->execute(); $item = $itemStmt->get_result()->fetch_assoc(); if (!$item) die('Không tìm thấy sản phẩm.'); $categories = $conn->query('SELECT * FROM categories ORDER BY name ASC'); if ($_SERVER['REQUEST_METHOD'] === 'POST') { $categoryId = (int)($_POST['category_id'] ?? 0); $name = trim($_POST['name'] ?? ''); $description = trim($_POST['description'] ?? ''); $price = (float)($_POST['price'] ?? 0); $stock = (int)($_POST['stock'] ?? 0); $image = trim($_POST['image'] ?? ''); $stmt = $conn->prepare('UPDATE products SET category_id = ?, name = ?, description = ?, price = ?, stock = ?, image = ? WHERE id = ?'); $stmt->bind_param('issdisi', $categoryId, $name, $description, $price, $stock, $image, $id); $stmt->execute(); header('Location: /Web/admin/products/index.php'); exit(); } include __DIR__ . '/../../includes/header.php';
+require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../includes/auth.php';
+require_once __DIR__ . '/../../includes/functions.php';
+require_once __DIR__ . '/../../includes/flash.php';
+
+requireAdmin();
+
+$id = (int)$_GET['id'];
+
+$stmt = $conn->prepare("SELECT * FROM products WHERE id=?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$product = $stmt->get_result()->fetch_assoc();
+
+if (!$product) die("Không tồn tại");
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = trim($_POST['name']);
+    $price = (float)$_POST['price'];
+    $stock = (int)$_POST['stock'];
+
+    if ($name === '' || $price <= 0) {
+        setFlash('error', 'Dữ liệu không hợp lệ!');
+    } else {
+        $stmt = $conn->prepare("UPDATE products SET name=?, price=?, stock=? WHERE id=?");
+        $stmt->bind_param("sdii", $name, $price, $stock, $id);
+        $stmt->execute();
+
+        setFlash('success', 'Cập nhật thành công!');
+        header("Location: index.php");
+        exit();
+    }
+}
+
+include __DIR__ . '/../../includes/header.php';
 ?>
-<section class="auth-box"><h2>Sửa sản phẩm</h2><form method="POST" class="auth-form wide" autocomplete="off"><select name="category_id" required><?php while ($cat = $categories->fetch_assoc()): ?><option value="<?php echo $cat['id']; ?>" <?php echo (int)$item['category_id'] === (int)$cat['id'] ? 'selected' : ''; ?>><?php echo sanitize($cat['name']); ?></option><?php endwhile; ?></select><input type="text" name="name" value="<?php echo sanitize($item['name']); ?>" autocomplete="off" required><textarea name="description" autocomplete="off"><?php echo sanitize($item['description']); ?></textarea><input type="number" step="0.01" name="price" value="<?php echo $item['price']; ?>" autocomplete="off" required><input type="number" name="stock" value="<?php echo $item['stock']; ?>" autocomplete="off" required><input type="text" name="image" value="<?php echo sanitize($item['image']); ?>" autocomplete="off"><button class="btn primary" type="submit">Cập nhật</button></form></section>
+
+<h2>Sửa sản phẩm</h2>
+<?php showFlash(); ?>
+
+<form method="POST" class="auth-form">
+    <input name="name" value="<?= sanitize($product['name']) ?>">
+    <input name="price" type="number" value="<?= $product['price'] ?>">
+    <input name="stock" type="number" value="<?= $product['stock'] ?>">
+    <button class="btn primary">Cập nhật</button>
+</form>
+
 <?php include __DIR__ . '/../../includes/footer.php'; ?>
+include __DIR__ . '/../../includes/footer.php';
