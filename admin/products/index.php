@@ -1,7 +1,9 @@
 <?php
 require_once __DIR__ . '/../../config/database.php';
+<<<<<<< HEAD
 require_once __DIR__ . '/../../includes/functions.php';
 require_once __DIR__ . '/../../includes/auth.php';
+require_once __DIR__ . '/../../includes/flash.php';
 
 requireAdmin();
 
@@ -17,6 +19,8 @@ include __DIR__ . '/../../includes/header.php';
     </div>
     <a class="btn primary" href="/Web/admin/products/create.php">Thêm sản phẩm</a>
 </section>
+
+<?php showFlash(); ?>
 
 <div class="cart-table-wrap" style="margin-top: 20px;">
     <table class="cart-table">

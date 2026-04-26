@@ -1,7 +1,8 @@
 <?php
+session_start(); // 👈 THÊM DÒNG NÀY
+
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/functions.php';
-
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');

@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../includes/auth.php';
 require_once __DIR__ . '/../../includes/functions.php';
+require_once __DIR__ . '/../../includes/flash.php';
 
 requireAdmin();
 
@@ -28,18 +29,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stock = (int)($_POST['stock'] ?? 0);
     $image = trim($_POST['image'] ?? '');
 
-    $stmt = $conn->prepare('UPDATE products SET category_id = ?, name = ?, brand = ?, cpu = ?, ram = ?, description = ?, price = ?, stock = ?, image = ? WHERE id = ?');
-    $stmt->bind_param('isssssdisi', $categoryId, $name, $brand, $cpu, $ram, $description, $price, $stock, $image, $id);
-    $stmt->execute();
+    if ($name === '' || $price <= 0) {
+        setFlash('error', 'Dữ liệu không hợp lệ!');
+    } else {
+        $stmt = $conn->prepare('UPDATE products SET category_id = ?, name = ?, brand = ?, cpu = ?, ram = ?, description = ?, price = ?, stock = ?, image = ? WHERE id = ?');
+        $stmt->bind_param('isssssdisi', $categoryId, $name, $brand, $cpu, $ram, $description, $price, $stock, $image, $id);
+        $stmt->execute();
 
-    header('Location: /Web/admin/products/index.php');
-    exit();
+        setFlash('success', 'Cập nhật thành công!');
+        header('Location: /Web/admin/products/index.php');
+        exit();
+    }
 }
 
 include __DIR__ . '/../../includes/header.php';
 ?>
 <section class="auth-box">
     <h2>Sửa sản phẩm</h2>
+    <?php showFlash(); ?>
+    
     <form method="POST" class="auth-form wide" autocomplete="off">
         <label>Danh mục</label>
         <select name="category_id" required>

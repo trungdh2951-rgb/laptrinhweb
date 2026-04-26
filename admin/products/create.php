@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../includes/auth.php';
 require_once __DIR__ . '/../../includes/functions.php';
+require_once __DIR__ . '/../../includes/flash.php';
 
 requireAdmin();
 
@@ -18,18 +19,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stock = (int)($_POST['stock'] ?? 0);
     $image = trim($_POST['image'] ?? '');
 
-    $stmt = $conn->prepare('INSERT INTO products (category_id, name, brand, cpu, ram, description, price, stock, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-    $stmt->bind_param('isssssdis', $categoryId, $name, $brand, $cpu, $ram, $description, $price, $stock, $image);
-    $stmt->execute();
+    if ($name === '' || $price <= 0) {
+        setFlash('error', 'Dữ liệu không hợp lệ!');
+    } else {
+        $stmt = $conn->prepare('INSERT INTO products (category_id, name, brand, cpu, ram, description, price, stock, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $stmt->bind_param('isssssdis', $categoryId, $name, $brand, $cpu, $ram, $description, $price, $stock, $image);
+        $stmt->execute();
 
-    header('Location: /Web/admin/products/index.php');
-    exit();
+        setFlash('success', 'Thêm sản phẩm thành công!');
+        header('Location: /Web/admin/products/index.php');
+        exit();
+    }
 }
 
 include __DIR__ . '/../../includes/header.php';
 ?>
 <section class="auth-box">
     <h2>Thêm sản phẩm mới</h2>
+    <?php showFlash(); ?>
+    
     <form method="POST" class="auth-form wide">
         <label>Danh mục</label>
         <select name="category_id" required>
@@ -76,4 +84,3 @@ include __DIR__ . '/../../includes/header.php';
         <button class="btn primary" type="submit">Lưu sản phẩm</button>
     </form>
 </section>
-<?php include __DIR__ . '/../../includes/footer.php'; ?>
