@@ -23,4 +23,15 @@ function redirect($path) {
 function sanitize($value) {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 }
+
+function imageUrl($filename) {
+    $filename = trim((string)$filename);
+    if ($filename === '') {
+        return '/Web/image/logo.jpg';
+    }
+
+    $fullPath = __DIR__ . '/../image/' . $filename;
+    $ver = file_exists($fullPath) ? filemtime($fullPath) : time();
+    return '/Web/image/' . rawurlencode($filename) . '?v=' . $ver;
+}
 ?>

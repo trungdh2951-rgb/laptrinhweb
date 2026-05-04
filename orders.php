@@ -20,7 +20,7 @@ include __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<div class="cart-table-wrap modern-table-wrap" style="margin-top: 20px;">
+<div class="cart-table-wrap modern-table-wrap table-spacing-top">
     <?php if ($result->num_rows > 0): ?>
         <table class="cart-table">
             <thead>
@@ -38,7 +38,7 @@ include __DIR__ . '/includes/header.php';
                     <tr>
                         <td><strong>#<?php echo $row['id']; ?></strong></td>
                         <td><?php echo date('d/m/Y H:i', strtotime($row['created_at'])); ?></td>
-                        <td><strong style="color: var(--primary);"><?php echo formatPrice($row['total_amount']); ?></strong></td>
+                        <td><strong class="total-price-emphasis"><?php echo formatPrice($row['total_amount']); ?></strong></td>
                         <td>
                             <?php echo $row['payment_method'] === 'bank_transfer' ? 'Chuyển khoản' : 'Tiền mặt (COD)'; ?>
                         </td>
@@ -64,7 +64,7 @@ include __DIR__ . '/includes/header.php';
             </tbody>
         </table>
     <?php else: ?>
-        <div class="empty-state" style="text-align: center; padding: 40px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <div class="empty-state empty-card">
             <p>Bạn chưa có đơn hàng nào.</p>
             <a href="products.php" class="btn primary">Mua sắm ngay</a>
         </div>

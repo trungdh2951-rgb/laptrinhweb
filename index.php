@@ -170,13 +170,13 @@ include __DIR__ . '/includes/header.php';
     <div class="slider-wrapper">
         <div class="slider-track" id="mainSliderTrack">
             <div class="slider-slide">
-                <img src="/Web/image/690x300_open_iPhone%2017e.webp" alt="iPhone 17e Banner">
+                <img src="/Web/image/690x300_open_iPhone_17e.webp" alt="iPhone 17e Banner">
             </div>
             <div class="slider-slide">
                 <img src="/Web/image/Frame21472288341.webp" alt="Samsung Galaxy S26 Series Banner">
             </div>
             <div class="slider-slide">
-                <img src="/Web/image/asus.webp" alt="Asus TUF Gaming Banner">
+                <img src="/Web/image/asus.webp?v=<?php echo @filemtime(__DIR__ . '/image/asus.webp') ?: time(); ?>" alt="Asus TUF Gaming Banner">
             </div>
         </div>
         
@@ -279,7 +279,7 @@ include __DIR__ . '/includes/header.php';
             <div class="product-thumb">
                 <span class="thumb-label">Hot</span>
                 <?php if(!empty($row['image'])): ?>
-                    <img src="/Web/image/<?php echo sanitize($row['image']); ?>" alt="<?php echo sanitize($row['name']); ?>" class="product-entry-img">
+                    <img src="<?php echo imageUrl($row['image']); ?>" alt="<?php echo sanitize($row['name']); ?>" class="product-entry-img">
                 <?php else: ?>
                     <?php echo sanitize($row['name']); ?>
                 <?php endif; ?>

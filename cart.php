@@ -30,10 +30,10 @@ include __DIR__ . '/includes/header.php';
 </section>
 
 <?php if (empty($cart)): ?>
-    <div class="empty-state" style="text-align: center; padding: 60px 20px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin: 20px 0;">
-        <div style="font-size: 4rem; margin-bottom: 15px;">🛒</div>
+    <div class="empty-state empty-card">
+        <div class="empty-icon">🛒</div>
         <h3>Giỏ hàng của bạn đang trống</h3>
-        <p style="color: #666; margin-bottom: 25px;">Có vẻ như bạn chưa chọn được sản phẩm nào ưng ý.</p>
+        <p class="muted-text">Có vẻ như bạn chưa chọn được sản phẩm nào ưng ý.</p>
         <a href="products.php" class="btn primary">Tiếp tục mua sắm</a>
     </div>
 <?php else: ?>
@@ -55,11 +55,13 @@ include __DIR__ . '/includes/header.php';
                         $total += $subtotal; 
                     ?>
                     <tr>
-                        <td style="display: flex; align-items: center; gap: 15px;">
-                            <?php if(!empty($item['image'])): ?>
-                                <img src="/Web/image/<?php echo sanitize($item['image']); ?>" width="60" style="border-radius: 8px;">
-                            <?php endif; ?>
-                            <strong><?php echo sanitize($item['name']); ?></strong>
+                        <td>
+                            <div class="cart-product-cell">
+                                <?php if(!empty($item['image'])): ?>
+                                    <img src="<?php echo imageUrl($item['image']); ?>" width="60" class="cart-thumb" alt="<?php echo sanitize($item['name']); ?>">
+                                <?php endif; ?>
+                                <strong><?php echo sanitize($item['name']); ?></strong>
+                            </div>
                         </td>
                         <td><?php echo formatPrice($item['price']); ?></td>
                         <td>
@@ -74,12 +76,12 @@ include __DIR__ . '/includes/header.php';
             </tbody>
         </table>
         
-        <div class="cart-actions-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <div class="cart-actions-footer summary-card">
             <div class="total-info">
-                <span style="color: #666;">Tổng số tiền:</span>
-                <div style="font-size: 1.5rem; color: var(--primary); font-weight: 700;"><?php echo formatPrice($total); ?></div>
+                <span class="muted-text">Tổng số tiền:</span>
+                <div class="total-price-emphasis"><?php echo formatPrice($total); ?></div>
             </div>
-            <div style="display: flex; gap: 10px;">
+            <div class="cart-footer-actions">
                 <button class="btn light" type="submit">Cập nhật giỏ</button> 
                 <a class="btn primary" href="/Web/checkout.php">Thanh toán ngay</a>
             </div>

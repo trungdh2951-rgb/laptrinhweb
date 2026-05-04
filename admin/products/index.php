@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../../config/database.php';
-<<<<<<< HEAD
 require_once __DIR__ . '/../../includes/functions.php';
 require_once __DIR__ . '/../../includes/auth.php';
 require_once __DIR__ . '/../../includes/flash.php';
@@ -42,7 +41,7 @@ include __DIR__ . '/../../includes/header.php';
                     <td><?php echo $row['id']; ?></td>
                     <td>
                         <?php if($row['image']): ?>
-                            <img src="/Web/image/<?php echo sanitize($row['image']); ?>" width="50" style="border-radius:4px;">
+                            <img src="<?php echo imageUrl($row['image']); ?>" width="50" style="border-radius:4px;">
                         <?php endif; ?>
                     </td>
                     <td>

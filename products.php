@@ -145,7 +145,7 @@ include __DIR__ . '/includes/header.php';
             <div class="product-thumb">
                 <span class="thumb-label">Mới</span>
                 <?php if(!empty($row['image'])): ?>
-                    <img src="/Web/image/<?php echo sanitize($row['image']); ?>" alt="<?php echo sanitize($row['name']); ?>" class="product-entry-img">
+                    <img src="<?php echo imageUrl($row['image']); ?>" alt="<?php echo sanitize($row['name']); ?>" class="product-entry-img">
                 <?php else: ?>
                     <div class="no-image-placeholder"><?php echo sanitize($row['name']); ?></div>
                 <?php endif; ?>

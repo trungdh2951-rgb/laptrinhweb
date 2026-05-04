@@ -11,14 +11,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = trim($_POST['phone'] ?? '');
     $address = trim($_POST['address'] ?? '');
 
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    $stmt = $conn->prepare('INSERT INTO users (full_name, email, password, phone, address, role) VALUES (?, ?, ?, ?, ?, "user")');
-    $stmt->bind_param('sssss', $fullName, $email, $hashedPassword, $phone, $address);
+    $checkStmt = $conn->prepare('SELECT id FROM users WHERE email = ? LIMIT 1');
+    $checkStmt->bind_param('s', $email);
+    $checkStmt->execute();
+    $existingUser = $checkStmt->get_result()->fetch_assoc();
 
-    if ($stmt->execute()) {
-        $success = 'Đăng ký thành công. Bạn có thể đăng nhập ngay.';
+    if ($existingUser) {
+        $error = 'Email này đã được đăng ký. Vui lòng dùng email khác hoặc đăng nhập.';
     } else {
-        $error = 'Email đã tồn tại hoặc dữ liệu chưa hợp lệ.';
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $conn->prepare('INSERT INTO users (full_name, email, password, phone, address, role) VALUES (?, ?, ?, ?, ?, "user")');
+        $stmt->bind_param('sssss', $fullName, $email, $hashedPassword, $phone, $address);
+
+        try {
+            if ($stmt->execute()) {
+                $success = 'Đăng ký thành công. Bạn có thể đăng nhập ngay.';
+            } else {
+                $error = 'Không thể đăng ký lúc này. Vui lòng thử lại.';
+            }
+        } catch (mysqli_sql_exception $e) {
+            if ((int)$e->getCode() === 1062) {
+                $error = 'Email này đã được đăng ký. Vui lòng dùng email khác hoặc đăng nhập.';
+            } else {
+                $error = 'Không thể đăng ký lúc này. Vui lòng thử lại.';
+            }
+        }
     }
 }
 

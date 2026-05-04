@@ -58,14 +58,14 @@ include __DIR__ . '/includes/header.php';
     </div>
 </section>
 
-<div class="checkout-container" style="display: grid; grid-template-columns: 1fr 350px; gap: 30px; margin-top: 20px;">
+<div class="checkout-container">
     <div class="checkout-form-side">
         <?php if ($message): ?>
-            <div class="empty-state" style="text-align: center; padding: 40px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                <div style="font-size: 3rem; margin-bottom: 15px;">✅</div>
+            <div class="empty-state empty-card">
+                <div class="empty-icon">✅</div>
                 <h3>Cảm ơn bạn!</h3>
                 <p><?php echo sanitize($message); ?></p>
-                <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+                <div class="center-actions">
                     <a href="index.php" class="btn primary">Về trang chủ</a>
                     <a href="orders.php" class="btn light">Xem đơn hàng</a>
                 </div>
@@ -81,19 +81,19 @@ include __DIR__ . '/includes/header.php';
                     <input type="text" name="phone" value="<?php echo sanitize($_SESSION['user']['phone'] ?? ''); ?>" placeholder="Số điện thoại" required>
                     
                     <label>Phương thức thanh toán</label>
-                    <div class="payment-methods" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 5px 0 20px;">
-                        <label class="payment-option" style="border: 1px solid #d8dde3; padding: 12px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; position: relative;">
-                            <input type="radio" name="payment_method" value="cod" checked style="width: 18px; height: 18px; margin: 0; cursor: pointer;">
+                    <div class="payment-methods">
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="cod" checked>
                             <div>
-                                <strong style="display: block; font-size: 0.95rem;">Tiền mặt (COD)</strong>
-                                <small style="display: block; color: #777; font-size: 0.8rem;">Thanh toán khi nhận hàng</small>
+                                <strong>Tiền mặt (COD)</strong>
+                                <small>Thanh toán khi nhận hàng</small>
                             </div>
                         </label>
-                        <label class="payment-option" style="border: 1px solid #d8dde3; padding: 12px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; position: relative;">
-                            <input type="radio" name="payment_method" value="bank_transfer" style="width: 18px; height: 18px; margin: 0; cursor: pointer;">
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="bank_transfer">
                             <div>
-                                <strong style="display: block; font-size: 0.95rem;">Chuyển khoản</strong>
-                                <small style="display: block; color: #777; font-size: 0.8rem;">Thanh toán qua ngân hàng</small>
+                                <strong>Chuyển khoản</strong>
+                                <small>Thanh toán qua ngân hàng</small>
                             </div>
                         </label>
                     </div>
@@ -108,27 +108,27 @@ include __DIR__ . '/includes/header.php';
     </div>
 
     <div class="checkout-summary-side">
-        <div class="summary-box" style="background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: sticky; top: 20px;">
-            <h3 style="margin-bottom: 15px;">Tóm tắt đơn hàng</h3>
-            <div class="summary-items" style="margin-bottom: 15px;">
+        <div class="summary-box summary-card">
+            <h3 class="summary-title">Tóm tắt đơn hàng</h3>
+            <div class="summary-items">
                 <?php 
                 $subtotal_all = 0;
                 foreach ($cart as $item): 
                     $sub = $item['price'] * $item['quantity'];
                     $subtotal_all += $sub;
                 ?>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem;">
-                        <span style="color: #666;"><?php echo sanitize($item['name']); ?> x<?php echo $item['quantity']; ?></span>
+                    <div class="summary-row">
+                        <span class="muted-text"><?php echo sanitize($item['name']); ?> x<?php echo $item['quantity']; ?></span>
                         <strong><?php echo formatPrice($sub); ?></strong>
                     </div>
                 <?php endforeach; ?>
             </div>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-            <div style="display: flex; justify-content: space-between; font-size: 1.1rem;">
+            <hr class="summary-divider">
+            <div class="summary-total-row">
                 <span>Tổng tiền:</span>
-                <strong style="color: var(--primary);"><?php echo formatPrice($subtotal_all); ?></strong>
+                <strong class="total-price-emphasis"><?php echo formatPrice($subtotal_all); ?></strong>
             </div>
-            <p style="font-size: 0.8rem; color: #999; margin-top: 15px;">* Giá đã bao gồm thuế VAT và phí vận chuyển mặc định.</p>
+            <p class="summary-note">* Giá đã bao gồm thuế VAT và phí vận chuyển mặc định.</p>
         </div>
     </div>
 </div>
